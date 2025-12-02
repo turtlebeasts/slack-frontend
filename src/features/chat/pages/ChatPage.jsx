@@ -150,10 +150,8 @@ export default function ChatPage() {
     const leavingId = activeChannel.id;
 
     try {
-      // Call backend to leave
       await chatApi.leaveChannel(leavingId);
 
-      // Reload joined + all channels
       const [joinedRes, allRes] = await Promise.all([
         chatApi.getJoinedChannels(),
         chatApi.getAllChannels(),
@@ -166,10 +164,8 @@ export default function ChatPage() {
       setAllChannels(all);
 
       if (joined.length > 0) {
-        // switch to first remaining joined channel
         setActiveChannel(joined[0]);
       } else {
-        // no channels left
         setActiveChannel(null);
         setMessages([]);
         setNextCursor(null);
@@ -182,7 +178,13 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-900 text-white">
+    <div
+      className="
+        min-h-screen
+        bg-gray-900 text-white
+        flex flex-col md:flex-row
+      "
+    >
       {/* LEFT: channels */}
       <ChannelList
         joinedChannels={joinedChannels}
@@ -193,81 +195,103 @@ export default function ChatPage() {
         onJoinChannel={handleJoinChannel}
       />
 
-      {/* CENTER: chat */}
-      <main className="flex-1 flex flex-col">
-        <div className="p-3 border-b border-gray-800 flex items-center justify-between">
-          <h3 className="font-bold">
-            {activeChannel ? `#${activeChannel.name}` : "No channel selected"}
-          </h3>
-          <div className="flex gap-2">
-            {activeChannel && (
+      {/* CENTER + RIGHT */}
+      <div className="flex-1 flex flex-col md:flex-row">
+        {/* CENTER: chat */}
+        <main className="flex-1 flex flex-col border-b md:border-b-0">
+          <div
+            className="
+              px-3 md:px-4 py-2.5
+              border-b border-gray-800
+              flex items-center justify-between gap-2
+              bg-gray-900/95
+            "
+          >
+            <h3 className="font-bold text-sm md:text-base truncate">
+              {activeChannel ? `#${activeChannel.name}` : "No channel selected"}
+            </h3>
+            <div className="flex gap-2">
+              {activeChannel && (
+                <button
+                  onClick={handleLeaveChannel}
+                  className="
+                    text-xs md:text-sm
+                    bg-gray-700 px-2 md:px-3 py-1 rounded
+                    hover:bg-gray-600 transition-colors
+                  "
+                >
+                  Leave
+                </button>
+              )}
               <button
-                onClick={handleLeaveChannel}
-                className="text-sm bg-gray-700 px-3 py-1 rounded"
+                onClick={handleLogout}
+                className="
+                  text-xs md:text-sm
+                  bg-red-600 px-2 md:px-3 py-1 rounded
+                  hover:bg-red-500 transition-colors
+                "
               >
-                Leave
+                Logout
               </button>
-            )}
-            <button
-              onClick={handleLogout}
-              className="text-sm bg-red-600 px-3 py-1 rounded"
-            >
-              Logout
-            </button>
+            </div>
           </div>
-        </div>
 
-        {activeChannel ? (
-          <>
-            {loadingChannelData ? (
-              // 🔥 Full-panel loading while messages/members are loading
-              <div className="flex-1 flex items-center justify-center">
-                <Spinner size="lg" />
-              </div>
-            ) : (
-              <>
-                <div className="flex-1 flex flex-col">
-                  {nextCursor && (
-                    <div className="p-2 flex justify-center">
-                      <button
-                        onClick={loadOlder}
-                        disabled={loadingMore}
-                        className="text-sm bg-gray-800 px-3 py-1 rounded flex items-center gap-2"
-                      >
-                        {loadingMore ? (
-                          <>
-                            <Spinner size="sm" /> <span>Loading...</span>
-                          </>
-                        ) : (
-                          "Load older messages"
-                        )}
-                      </button>
-                    </div>
-                  )}
-                  <MessageList messages={messages} />
+          {activeChannel ? (
+            <>
+              {loadingChannelData ? (
+                // Full-panel loading while messages/members are loading
+                <div className="flex-1 flex items-center justify-center">
+                  <Spinner size="lg" />
                 </div>
-                <MessageInput disabled={!activeChannel} onSend={handleSend} />
-              </>
-            )}
-          </>
-        ) : loadingChannels ? (
-          // 🔥 Initial channels loading, no channel yet
-          <div className="flex-1 flex items-center justify-center">
-            <Spinner size="lg" />
-          </div>
-        ) : (
-          <div className="flex-1 flex items-center justify-center text-gray-500">
-            Create or join a channel from the left to start chatting.
-          </div>
-        )}
-      </main>
+              ) : (
+                <>
+                  <div className="flex-1 flex flex-col">
+                    {nextCursor && (
+                      <div className="p-2 flex justify-center">
+                        <button
+                          onClick={loadOlder}
+                          disabled={loadingMore}
+                          className="
+                            text-xs md:text-sm
+                            bg-gray-800 px-3 py-1 rounded
+                            flex items-center gap-2
+                          "
+                        >
+                          {loadingMore ? (
+                            <>
+                              <Spinner size="sm" /> <span>Loading...</span>
+                            </>
+                          ) : (
+                            "Load older messages"
+                          )}
+                        </button>
+                      </div>
+                    )}
+                    <MessageList messages={messages} />
+                  </div>
+                  <MessageInput disabled={!activeChannel} onSend={handleSend} />
+                </>
+              )}
+            </>
+          ) : loadingChannels ? (
+            // Initial channels loading, no channel yet
+            <div className="flex-1 flex items-center justify-center">
+              <Spinner size="lg" />
+            </div>
+          ) : (
+            <div className="flex-1 flex items-center justify-center text-gray-500 text-sm md:text-base">
+              Create or join a channel from the left to start chatting.
+            </div>
+          )}
+        </main>
 
-      {/* RIGHT: members + presence */}
-      <OnlineUsers
-        members={channelMembers}
-        onlineUserIds={onlineUserIds}
-        activeChannel={activeChannel}
-      />
+        {/* RIGHT: members + presence */}
+        <OnlineUsers
+          members={channelMembers}
+          onlineUserIds={onlineUserIds}
+          activeChannel={activeChannel}
+        />
+      </div>
     </div>
   );
 }

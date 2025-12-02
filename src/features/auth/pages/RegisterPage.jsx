@@ -16,7 +16,7 @@ export default function RegisterPage() {
       setIsSubmitting(true);
       const res = await authApi.register(name, email, password);
       localStorage.setItem("token", res.data.token);
-      nav("/chat");
+      nav("/chat", { replace: true });
     } catch (err) {
       alert(err.response?.data?.message || "Registration failed");
     } finally {
@@ -30,35 +30,48 @@ export default function RegisterPage() {
       footer={
         <>
           Already have an account?{" "}
-          <Link to="/login" className="text-blue-400">
+          <Link to="/login" className="text-blue-400 hover:text-blue-300">
             Login
           </Link>
         </>
       }
     >
       <input
-        className="w-full p-2 rounded bg-gray-700 text-white"
+        className="w-full px-3 py-2.5 rounded-md bg-gray-700 text-white text-sm
+                   placeholder:text-gray-400 border border-gray-600
+                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         placeholder="Name"
+        type="text"
+        autoComplete="name"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
       <input
-        className="w-full p-2 rounded bg-gray-700 text-white"
+        className="w-full px-3 py-2.5 rounded-md bg-gray-700 text-white text-sm
+                   placeholder:text-gray-400 border border-gray-600
+                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         placeholder="Email"
+        type="email"
+        autoComplete="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
       <input
-        className="w-full p-2 rounded bg-gray-700 text-white"
+        className="w-full px-3 py-2.5 rounded-md bg-gray-700 text-white text-sm
+                   placeholder:text-gray-400 border border-gray-600
+                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         placeholder="Password"
         type="password"
+        autoComplete="new-password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
       <button
         onClick={onSubmit}
         disabled={isSubmitting}
-        className="bg-blue-600 w-full p-2 rounded text-white"
+        className="w-full py-2.5 rounded-md text-sm font-medium
+                   bg-blue-600 hover:bg-blue-500 disabled:hover:bg-blue-600
+                   text-white transition-colors"
       >
         {isSubmitting ? "Registering..." : "Register"}
       </button>
