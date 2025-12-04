@@ -3,7 +3,7 @@ export default function LandingPage() {
     <div className="flex flex-col min-h-screen bg-gray-900 text-white">
       {/* Navbar */}
       <header className="flex justify-between items-center px-8 py-4 bg-gray-950/50 border-b border-gray-800">
-        <h1 className="text-2xl font-semibold">ChatFlow</h1>
+        <h1 className="text-2xl font-semibold">Slackk</h1>
         <div className="space-x-4">
           <a
             href="/login"
@@ -21,7 +21,7 @@ export default function LandingPage() {
       </header>
 
       {/* Hero Section */}
-      <main className="flex flex-col items-center justify-center flex-grow text-center px-6">
+      <main className="flex flex-col items-center justify-center grow text-center px-6">
         <h2 className="text-4xl md:text-6xl font-bold mb-4">
           Team Chat Made Simple
         </h2>
@@ -40,7 +40,7 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="text-center py-4 border-t border-gray-800 text-gray-500 text-sm">
-        © {new Date().getFullYear()} ChatFlow. All rights reserved.
+        © {new Date().getFullYear()} Slackk. All rights reserved.
       </footer>
     </div>
   );
