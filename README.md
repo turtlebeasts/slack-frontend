@@ -1,16 +1,118 @@
-# React + Vite
+# Real-Time Chat Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Full-Stack Internship Assignment – DeeRef Labs
 
-Currently, two official plugins are available:
+A full-stack real-time chat platform where users can register, create or join channels, chat with others instantly, and see online presence in real-time.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Authentication
 
-## Expanding the ESLint configuration
+- Secure JWT-based login & registration
+- Protected routes for chat
+- Session persistence
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Channels
+
+- Create channels
+- Join / Leave channels
+- Joined channels displayed separately
+
+### Real-Time Messaging
+
+- WebSockets with Socket.IO
+- Live delivery between multiple users
+- Shows sender name + timestamp
+- Load older messages with cursor pagination
+
+### Online Presence
+
+- Shows online/offline users in every channel
+- Real-time presence sync
+
+### Responsive UI
+
+- Desktop → 3-column layout
+- Mobile → stacked layout
+- Proper loading states with spinners
+
+### Deployment
+
+- Frontend hosted on Netlify:  
+  https://slackk.netlify.app
+
+---
+
+## Tech Stack
+
+| Layer      | Technology                         |
+| ---------- | ---------------------------------- |
+| Frontend   | React + Vite + TailwindCSS + Axios |
+| Backend    | Node.js + Express.js               |
+| Realtime   | Socket.IO                          |
+| Database   | PostgreSQL (Supabase)              |
+| Auth       | JWT                                |
+| Deployment | Netlify (Frontend)                 |
+
+---
+
+## Folder Structure Overview
+
+### Backend
+
+src/
+├─ routes/
+├─ sockets/
+├─ middleware/
+├─ db.js
+├─ app.js
+└─ index.js
+
+### Frontend
+
+src/
+├─ components/
+├─ pages/
+├─ hooks/
+├─ shared/
+└─ App.jsx
+
+---
+
+## Environment Variables
+
+### Frontend .env
+
+VITE_API_URL=https://<your-backend>.fly.dev/api
+
+---
+
+## Run Project Locally
+
+### Frontend
+
+cd frontend
+npm install
+npm run dev
+
+Open:  
+👉 http://localhost:5173
+
+---
+
+## 📈 Future Enhancements
+
+- Direct Messages (DMs)
+- File uploads
+- Typing indicators
+- Admin roles
+- Message edit/delete
+
+---
+
+## 👨‍💻 Developer
+
+**Mriganka Das**  
+GitHub: https://github.com/turtlebeasts
