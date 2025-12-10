@@ -25,7 +25,6 @@ export default function ChatPage() {
     activeChannel?.id
   );
 
-  // Load joined + all channels
   const loadChannels = async () => {
     try {
       setLoadingChannels(true);
@@ -52,7 +51,6 @@ export default function ChatPage() {
 
   useEffect(() => {
     loadChannels();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -85,7 +83,6 @@ export default function ChatPage() {
     loadChannelData();
   }, [activeChannel]);
 
-  // Handle new socket messages
   useEffect(() => {
     if (!incomingMessage) return;
     if (incomingMessage.channel_id === activeChannel?.id) {
@@ -185,7 +182,6 @@ export default function ChatPage() {
         flex flex-col md:flex-row
       "
     >
-      {/* LEFT: channels */}
       <ChannelList
         joinedChannels={joinedChannels}
         allChannels={allChannels}
@@ -195,9 +191,7 @@ export default function ChatPage() {
         onJoinChannel={handleJoinChannel}
       />
 
-      {/* CENTER + RIGHT */}
       <div className="flex-1 flex flex-col md:flex-row">
-        {/* CENTER: chat */}
         <main className="flex-1 flex flex-col border-b md:border-b-0">
           <div
             className="
@@ -239,7 +233,6 @@ export default function ChatPage() {
           {activeChannel ? (
             <>
               {loadingChannelData ? (
-                // Full-panel loading while messages/members are loading
                 <div className="flex-1 flex items-center justify-center">
                   <Spinner size="lg" />
                 </div>
@@ -274,7 +267,6 @@ export default function ChatPage() {
               )}
             </>
           ) : loadingChannels ? (
-            // Initial channels loading, no channel yet
             <div className="flex-1 flex items-center justify-center">
               <Spinner size="lg" />
             </div>
@@ -285,7 +277,6 @@ export default function ChatPage() {
           )}
         </main>
 
-        {/* RIGHT: members + presence */}
         <OnlineUsers
           members={channelMembers}
           onlineUserIds={onlineUserIds}
